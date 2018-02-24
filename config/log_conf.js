@@ -2,7 +2,9 @@
  * log4js 配置
  */
 module.exports = {
+  // 输出类型
   appenders: {
+    // 控制台输出
     stdout: {
       type: 'stdout'
     },
@@ -24,7 +26,8 @@ module.exports = {
   replaceConsole: true,
 
   categories: {
-    default: { appenders: ['stdout','access'], level: 'debug' },// appenders:采用的appender,取appenders项,level:设置级别
+    // appenders:采用的appender,取appenders项,level:设置级别
+    default: { appenders: ['stdout','access'], level: 'debug' },
     error: { appenders: ['stdout','error'], level: 'info' }
   }
 }

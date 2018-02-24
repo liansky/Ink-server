@@ -8,7 +8,6 @@ const bodyparser = require('koa-bodyparser')
 const loger = require('./plugins/log4js')
 
 const index = require('./routes/index')
-const users = require('./routes/users')
 
 // 数据库连接
 require('./models/db')
@@ -38,7 +37,6 @@ app.use(async (ctx, next) => {
 
 // routes
 app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
