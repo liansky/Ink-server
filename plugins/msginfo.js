@@ -1,8 +1,6 @@
 /**
  * 接口返回信息封装
  */
-const loger = require('./log4js')
-
 const msgInfo = {
   SUCCESS:{code:0, msg:"成功", msgCode:"SUCCESS"},
   SERVER_EXCEPTION:{code:1, msg:"服务器异常,请稍候再试...",msgCode:"SERVER_EXCEPTION"},
@@ -10,17 +8,23 @@ const msgInfo = {
   /**
    * 通用字段 1000开始
    */
-  NO_MOBILE:{
-    code:1000,msg:"无效的手机号码", msgCode:"INVALID_MOBILE"
+  PARAMETER_ERROR:{
+    code:1000,msg:"请求参数异常", msgCode:"INVALID_PARAMETER"
   },
   INVALID_USER_NAME:{
-    code:1001, msg:"用户名须为6-16位数字或字母", msgCode:"INVALID_USER_NAME"
+    code:1001, msg:"用户名不能为空", msgCode:"INVALID_USER_NAME"
   },
   INVALID_PASSWORD:{
     code:1002, msg:"密码须为6-16位数字或字母",msgCode:"INVALID_PASSWORD"
   },
-  PARAMETER_ERROR:{
-    code:1003, msg:"请求参数异常", msgCode:"INVALID_PARAMETER"
+  INVALID_A_PASSWORD:{
+    code:1003, msg:"两次输入的密码不一致",msgCode:"INVALID_A_PASSWORD"
+  },
+  INVALID_NICK_NAME:{
+    code:1004, msg:"昵称不能为空", msgCode:"INVALID_NICK_NAME"
+  },
+  INVALID_TOKEN:{
+    code:1005, msg:"无效token", msgCode:"INVALID_TOKEN"
   },
 
   MEMBER_IS_HAVE: {
@@ -35,50 +39,52 @@ const msgInfo = {
 
 }
 
+module.exports = (app) => {
+  app.context.msgInfo = msgInfo
 
-/**
- * @description 接口调用成功封装信息
- * @param res response对象
- * @param data 需要返回的数据
- */
-module.exports.success = (res, data) =>{
-
-  loger.info(
-    Object.assign({'INFO':'--------------------接口成功返回值--------------------'},{
-      code:msgInfo['SUCCESS']['code'],
-      msg:msgInfo['SUCCESS']['msg'],
+  /**
+   * 统一处理成功返回
+   * @param ctx koa 上下文
+   * @param data 需要返回的数据
+   */
+  app.context.success = (ctx, data) => {
+    ctx.logger.info(
+      Object.assign({'INFO':'--------------------接口成功返回值--------------------'},{
+        code: msgInfo['SUCCESS']['code'],
+        msg: msgInfo['SUCCESS']['msg'],
+        data: data || {}
+      })
+    )
+    ctx.body = {
+      code: msgInfo['SUCCESS']['code'],
+      msg: msgInfo['SUCCESS']['msg'],
       data: data || {}
-    })
-  )
-
-  res.json({
-    code:msgInfo['SUCCESS']['code'],
-    msg:msgInfo['SUCCESS']['msg'],
-    data:data
-  })
-
-}
-
-/**
- * @description 接口失败封装信息
- * @param res
- * @param errStr
- */
-module.exports.error = (res,errStr) => {
-  const data = {
-    code: '',
-    msg: '',
-    data: {}
+    }
   }
 
-  if (errStr !== undefined && msgInfo[errStr]) {
-    data.code = msgInfo[errStr]['code'];
-    data.msg = msgInfo[errStr]['msg'];
-    loger.error(msgInfo[errStr])
+
+  /**
+   *  统一处理错误返回
+   * @param ctx koa 上下文
+   * @param errStr 错误类型
+   */
+  app.context.error = (ctx, errStr) => {
+    const data = {
+      code: '',
+      msg: '',
+      data: {}
+    }
+
+    if (errStr !== undefined && msgInfo[errStr]) {
+      data.code = msgInfo[errStr]['code'];
+      data.msg = msgInfo[errStr]['msg'];
+    }
+
+    ctx.logger.info(
+      Object.assign({'INFO':'--------------------接口失败返回值--------------------'}, data)
+    )
+
+    ctx.body = data
   }
 
-  loger.info(
-    Object.assign({'INFO':'--------------------接口失败返回值--------------------'}, data)
-  )
-  res.json(data)
 }

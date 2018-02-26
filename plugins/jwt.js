@@ -28,14 +28,17 @@ module.exports = {
    * @returns payload {object}
    */
   async verify (token) {
-    const payload = await promisify(jwt.verify)(
-      token,
-      conf.secret,
-    )
+    try {
+      const payload = await promisify(jwt.verify)(
+        token,
+        conf.secret,
+      )
 
-    delete payload.exp
-    delete payload.iat
-    return payload
+      delete payload.exp
+      delete payload.iat
+      return payload
+    } catch (e) {
+      return ''
+    }
   }
-
 }

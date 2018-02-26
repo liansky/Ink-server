@@ -7,7 +7,8 @@ router
       title: 'Hello Koa 2!'
     })
   })
-  .get('/api/user/login', UserCtrl.login)         // 登录
-  .get('/api/user/register', UserCtrl.register)   // 注册
+  .post('/api/user/login', UserCtrl.login)         // 登录
+  .post('/api/user/register', UserCtrl.register)   // 注册
+  .post('/api/user/userinfo', UserCtrl.userInfo)    // 更新用户信息
 
 module.exports = router

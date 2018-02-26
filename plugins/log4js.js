@@ -28,6 +28,14 @@ class Logger {
     logger.warn(JSON.stringify(data, null, '  '))
   }
 
+  debug (data) {
+    const logger = log4js.getLogger('access');
+    logger.debug(JSON.stringify(data, null, '  '))
+  }
+
 }
 
-module.exports = new Logger
+
+module.exports = (app) => {
+  app.context.logger = new Logger
+}

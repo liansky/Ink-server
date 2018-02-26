@@ -22,4 +22,3 @@ mongoose.connection.on('error', function(err) {
 mongoose.connection.on('disconnected', function() {
   console.log('Mongoose connection disconnected');
 });
-
