@@ -60,7 +60,7 @@ class UserCtrl {
     const payload = await jwt.verify(token)
     if (!payload) return ctx.error(ctx, ctx.msgInfo.INVALID_TOKEN.msgCode)
 
-    const user = await userModel.findById(payload.id , { password: 0, __v: 0, _id: 0 })
+    const user = await userModel.findById(payload.id , { password: 0 })
     if (!user) return
     return ctx.success(ctx, user)
   }
@@ -70,7 +70,7 @@ class UserCtrl {
    * 更新用户信息
    */
   static async updateUserInfo (ctx) {
-    const { token, email, mobile, profile, avatar  } = ctx.request.body
+    const { token, email, mobile, profile, avatar, nickname } = ctx.request.body
 
     const payload = await jwt.verify(token)
     if (!payload) return ctx.error(ctx, ctx.msgInfo.INVALID_TOKEN.msgCode)
@@ -80,6 +80,7 @@ class UserCtrl {
     if (mobile) updateInfo.mobile = mobile
     if (profile) updateInfo.profile = profile
     if (avatar) updateInfo.avatar = avatar
+    if (nickname) updateInfo.nickname = nickname
 
     const user = await userModel.findByIdAndUpdate(payload.id, updateInfo)
     if (!user) return ctx.error(ctx, ctx.msgInfo.MEMBER_IS_NONE.msgCode)
