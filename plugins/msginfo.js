@@ -66,18 +66,18 @@ module.exports = (app) => {
   /**
    *  统一处理错误返回
    * @param ctx koa 上下文
-   * @param errStr 错误类型
+   * @param errObj 错误对象
    */
-  app.context.error = (ctx, errStr) => {
+  app.context.error = (ctx, errObj) => {
     const data = {
       code: '',
       msg: '',
       data: {}
     }
 
-    if (errStr !== undefined && msgInfo[errStr]) {
-      data.code = msgInfo[errStr]['code'];
-      data.msg = msgInfo[errStr]['msg'];
+    if (errObj && errObj.code) {
+      data.code = errObj['code'];
+      data.msg = errObj['msg'];
     }
 
     ctx.logger.info(

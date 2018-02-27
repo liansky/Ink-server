@@ -17,17 +17,17 @@ class UserCtrl {
     const { name, nickname, password, apassword } = ctx.request.body
 
     // 参数验证
-    if (!name) return ctx.error(ctx, ctx.msgInfo.INVALID_USER_NAME.msgCode)
-    if (!nickname) return ctx.error(ctx, ctx.msgInfo.INVALID_NICK_NAME.msgCode)
-    if (!password || password.length < 6) return ctx.error(ctx, ctx.msgInfo.INVALID_PASSWORD.msgCode)
-    if (password !== apassword) return ctx.error(ctx, ctx.msgInfo.INVALID_A_PASSWORD.msgCode)
+    if (!name) return ctx.error(ctx, ctx.msgInfo.INVALID_USER_NAME)
+    if (!nickname) return ctx.error(ctx, ctx.msgInfo.INVALID_NICK_NAME)
+    if (!password || password.length < 6) return ctx.error(ctx, ctx.msgInfo.INVALID_PASSWORD)
+    if (password !== apassword) return ctx.error(ctx, ctx.msgInfo.INVALID_A_PASSWORD)
 
     // 验证用户是否注册
     const isHas = await userModel.findOne({ name })
-    if (isHas) return ctx.error(ctx, ctx.msgInfo.MEMBER_IS_HAVE.msgCode)
+    if (isHas) return ctx.error(ctx, ctx.msgInfo.MEMBER_IS_HAVE)
 
     const user = await userModel.create({ name, nickname, password: md5(password)})
-    if (!user) return ctx.error(ctx, ctx.msgInfo.SERVER_EXCEPTION.msgCode)
+    if (!user) return ctx.error(ctx, ctx.msgInfo.SERVER_EXCEPTION)
 
     return ctx.success(ctx)
   }
@@ -39,12 +39,12 @@ class UserCtrl {
   static async login (ctx) {
     const { name, password } = ctx.request.body
 
-    if (!name || !password) return ctx.error(ctx, ctx.msgInfo.PARAMETER_ERROR.msgCode)
+    if (!name || !password) return ctx.error(ctx, ctx.msgInfo.PARAMETER_ERROR)
 
     const user = await userModel.findOne({name})
-    if (!user) return ctx.error(ctx, ctx.msgInfo.MEMBER_IS_NONE.msgCode)
+    if (!user) return ctx.error(ctx, ctx.msgInfo.MEMBER_IS_NONE)
 
-    if (user.password !== md5(password)) return ctx.error(ctx, ctx.msgInfo.MEMBER_PASSWORD_ERROR.msgCode)
+    if (user.password !== md5(password)) return ctx.error(ctx, ctx.msgInfo.MEMBER_PASSWORD_ERROR)
 
     const token = await jwt.sign({ id: user._id }) // 根据用户id生成token
     return ctx.success(ctx, { token })
@@ -58,7 +58,7 @@ class UserCtrl {
     const { token } = ctx.request.query
 
     const payload = await jwt.verify(token)
-    if (!payload) return ctx.error(ctx, ctx.msgInfo.INVALID_TOKEN.msgCode)
+    if (!payload) return ctx.error(ctx, ctx.msgInfo.INVALID_TOKEN)
 
     const user = await userModel.findById(payload.id , { password: 0 })
     if (!user) return
@@ -73,7 +73,7 @@ class UserCtrl {
     const { token, email, mobile, profile, avatar, nickname } = ctx.request.body
 
     const payload = await jwt.verify(token)
-    if (!payload) return ctx.error(ctx, ctx.msgInfo.INVALID_TOKEN.msgCode)
+    if (!payload) return ctx.error(ctx, ctx.msgInfo.INVALID_TOKEN)
 
     const updateInfo = {}
     if (email) updateInfo.email = email
@@ -83,7 +83,8 @@ class UserCtrl {
     if (nickname) updateInfo.nickname = nickname
 
     const user = await userModel.findByIdAndUpdate(payload.id, updateInfo)
-    if (!user) return ctx.error(ctx, ctx.msgInfo.MEMBER_IS_NONE.msgCode)
+    ctx.logger.debug(user)
+    if (!user) return ctx.error(ctx, ctx.msgInfo.MEMBER_IS_NONE)
 
     return ctx.success(ctx)
   }
