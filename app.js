@@ -7,12 +7,9 @@ const bodyparser = require('koa-bodyparser')
 const msgInfo = require('./plugins/msginfo')
 const log4js = require('./plugins/log4js')
 const logger = require('./middlewares/logger')
-
-const uuidV1 = require('uuid/v1');
+const token = require('./middlewares/token')
 
 const index = require('./routes/index')
-
-console.log(uuidV1())
 
 // 数据库连接
 require('./models/db')
@@ -39,6 +36,7 @@ app.use(views(__dirname + '/views', {
 
 // logger
 app.use(logger)
+app.use(token)
 
 // routes
 app.use(index.routes(), index.allowedMethods())

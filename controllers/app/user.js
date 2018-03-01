@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 const userModel = mongoose.model('User')
 const md5 = require('md5')
 const jwt = require('../../plugins/jwt')
+const uuidV4 = require('uuid/v4')
+const moment = require('moment')
 
 /**
  * User
@@ -26,7 +28,8 @@ class UserCtrl {
     const isHas = await userModel.findOne({ name })
     if (isHas) return ctx.error(ctx, ctx.msgInfo.MEMBER_IS_HAVE)
 
-    const user = await userModel.create({ name, nickname, password: md5(password)})
+    const expireTime = moment().add(7, 'days')
+    const user = await userModel.create({ name, nickname, password: md5(password), token: uuidV4(), expire: expireTime })
     if (!user) return ctx.error(ctx, ctx.msgInfo.SERVER_EXCEPTION)
 
     return ctx.success(ctx)
@@ -61,7 +64,7 @@ class UserCtrl {
     if (!payload) return ctx.error(ctx, ctx.msgInfo.INVALID_TOKEN)
 
     const user = await userModel.findById(payload.id , { password: 0 })
-    if (!user) return
+    if (!user) return ctx.error(ctx, ctx.msgInfo.MEMBER_IS_NONE)
     return ctx.success(ctx, user)
   }
 
