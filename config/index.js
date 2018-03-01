@@ -1,7 +1,7 @@
 /**
  * 配置文件
  */
-module.exports = {
+const config = {
   // 开发
   development: {
     mongo: {
@@ -11,7 +11,7 @@ module.exports = {
     },
     port: '9000',
     secret: 'lnk',
-    jwtTimeOut: '7d'
+    tokenTimeOut: 60
   },
 
   // 生产
@@ -23,6 +23,8 @@ module.exports = {
     },
     port: '8080',
     secret: 'lnk',
-    jwtTimeOut: '7d'
+    tokenTimeOut: 60
   }
 }
+
+module.exports = config[process.env.NODE_ENV || 'development']

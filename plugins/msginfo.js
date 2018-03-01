@@ -24,7 +24,7 @@ const msgInfo = {
     code:1004, msg:"昵称不能为空", msgCode:"INVALID_NICK_NAME"
   },
   INVALID_TOKEN:{
-    code:1005, msg:"无效token", msgCode:"INVALID_TOKEN"
+    code:1005, msg:"token 已过期", msgCode:"INVALID_TOKEN"
   },
 
   MEMBER_IS_HAVE: {
