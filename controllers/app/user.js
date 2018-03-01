@@ -59,7 +59,9 @@ class UserCtrl {
    * 查询用户信息
    */
   static async personal (ctx) {
-    const { userId } = ctx.request.query
+    const { userId, token } = ctx.request.query
+    if (!token || !userId) return ctx.error(ctx, ctx.msgInfo.PARAMETER_ERROR)
+
     const user = await userModel.findById(userId , { password: 0 })
     if (!user) return ctx.error(ctx, ctx.msgInfo.MEMBER_IS_NONE)
     return ctx.success(ctx, user)
@@ -70,7 +72,8 @@ class UserCtrl {
    * 更新用户信息
    */
   static async updateUserInfo (ctx) {
-    const { userId, email, mobile, profile, avatar, nickname } = ctx.request.body
+    const { userId, token, email, mobile, profile, avatar, nickname } = ctx.request.body
+    if (!token || !userId) return ctx.error(ctx, ctx.msgInfo.PARAMETER_ERROR)
 
     const updateInfo = {}
     if (email) updateInfo.email = email
