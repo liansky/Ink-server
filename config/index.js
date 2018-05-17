@@ -11,7 +11,7 @@ const config = {
     },
     port: '9000',
     secret: 'lnk',
-    tokenTimeOut: 60
+    tokenTimeOut: 9000
   },
 
   // 生产

@@ -22,7 +22,11 @@ module.exports = async (ctx, next) => {
       return ctx.error(ctx, ctx.msgInfo.INVALID_TOKEN)
     } else {
       const nextExpireTime = moment().add(config.tokenTimeOut, 'seconds')
-      await userModel.update({expire: nextExpireTime})
+      try {
+        await userModel.findByIdAndUpdate(userId, { expire: nextExpireTime })
+      } catch (e) {
+        ctx.logger.info(e.message)
+      }
     }
   }
   await next()
