@@ -1,3 +1,6 @@
+/**
+ * 消息表
+ */
 const mongoose  = require('mongoose');
 const Schema    = mongoose.Schema;
 const ObjectId  = Schema.ObjectId;
@@ -13,4 +16,4 @@ const MessageSchema = new Schema({
 });
 MessageSchema.index({master_id: 1, has_read: -1, create_at: -1});
 
-mongoose.model('Message', MessageSchema);
+mongoose.model('message', MessageSchema);

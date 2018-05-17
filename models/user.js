@@ -1,8 +1,8 @@
 /**
  * 用户表
  */
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   token: {type: String, required: true},
@@ -16,6 +16,6 @@ const userSchema = new Schema({
   email: {type: String, default: ''},
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
-})
+});
 
-module.exports = mongoose.model('User', userSchema)
+mongoose.model('user', userSchema);

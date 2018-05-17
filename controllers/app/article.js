@@ -1,7 +1,6 @@
-require('../../models')
-const mongoose = require('mongoose')
-const userModel = mongoose.model('User')
-const jwt = require('../../plugins/jwt')
+const mongoose = require('mongoose');
+const userModel = require('../../models').User;
+const jwt = require('../../plugins/jwt');
 
 /**
  * ArticleCtrl

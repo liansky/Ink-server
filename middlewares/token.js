@@ -1,11 +1,9 @@
 /**
  * 验证token
  */
-require('../models')
-const mongoose = require('mongoose')
-const userModel = mongoose.model('User')
-const moment = require('moment')
-const config = require('../config')
+const userModel = require('../models').User;
+const moment = require('moment');
+const config = require('../config');
 
 
 module.exports = async (ctx, next) => {

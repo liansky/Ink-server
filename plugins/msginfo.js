@@ -49,7 +49,7 @@ module.exports = (app) => {
    */
   app.context.success = (ctx, data) => {
     ctx.logger.info(
-      Object.assign({'INFO':'--------------------接口成功返回值--------------------'},{
+      Object.assign({'INFO':'------------接口成功返回值------------'},{
         code: msgInfo['SUCCESS']['code'],
         msg: msgInfo['SUCCESS']['msg'],
         data: data || {}
@@ -81,7 +81,7 @@ module.exports = (app) => {
     }
 
     ctx.logger.info(
-      Object.assign({'INFO':'--------------------接口失败返回值--------------------'}, data)
+      Object.assign({'INFO':'----------接口失败返回值----------'}, data)
     )
 
     ctx.body = data

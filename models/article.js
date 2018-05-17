@@ -23,4 +23,4 @@ ArticleSchema.index({create_at: -1});
 ArticleSchema.index({category_id: 1, create_at: -1});
 ArticleSchema.index({author_id: 1, create_at: -1});
 
-module.exports = mongoose.model('Article', ArticleSchema);
+mongoose.model('article', ArticleSchema);

@@ -17,4 +17,4 @@ const CategorySchema = new Schema({
 
 CategorySchema.index({category_id: 1}, {unique: true});
 
-module.exports = mongoose.model('Category', CategorySchema);
+mongoose.model('category', CategorySchema);

@@ -4,15 +4,13 @@ const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
+
 const msgInfo = require('./plugins/msginfo')
 const log4js = require('./plugins/log4js')
 const logger = require('./middlewares/logger')
 const token = require('./middlewares/token')
-
 const index = require('./routes/index')
 
-// 数据库连接
-require('./models/db')
 
 // 返回值处理
 msgInfo(app)

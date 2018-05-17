@@ -1,6 +1,4 @@
-require('../../models')
-const mongoose = require('mongoose')
-const userModel = mongoose.model('User')
+const userModel = require('../../models').User;
 const md5 = require('md5')
 const uuidV4 = require('uuid/v4')
 const moment = require('moment')
