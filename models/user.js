@@ -14,8 +14,8 @@ const userSchema = new Schema({
   profile: {type: String, default: ''},
   avatar: {type: String, default: ''},
   email: {type: String, default: ''},
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
+  created_at: { type: Date, default: Date.now },
+  updated_at: { type: Date, default: Date.now }
 });
 
 mongoose.model('user', userSchema);

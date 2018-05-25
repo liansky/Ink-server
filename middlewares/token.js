@@ -21,13 +21,17 @@ module.exports = async (ctx, next) => {
     if (token !== user.token || expireTime - expireDbTime > 0) {
       return ctx.error(ctx, ctx.msgInfo.INVALID_TOKEN)
     } else {
-      const nextExpireTime = moment().add(config.tokenTimeOut, 'seconds')
+      const nextExpireTime = moment().add(config.tokenTimeOut, 'seconds');
       try {
         await userModel.findByIdAndUpdate(userId, { expire: nextExpireTime })
+        await next()
       } catch (e) {
-        ctx.logger.info(e.message)
+        ctx.logger.info('---鉴权更新失败---' + e.message);
+        return ctx.error(ctx, ctx.msgInfo.SERVER_EXCEPTION)
       }
     }
+  } else {
+    return ctx.error(ctx, ctx.msgInfo.PARAMETER_ERROR)
   }
-  await next()
 }
+
