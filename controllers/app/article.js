@@ -23,6 +23,14 @@ class ArticleCtrl {
 
 
   /**
+   * 删除
+   */
+  static delete (ctx) {
+
+  }
+
+
+  /**
    * 查询
    */
   static query (ctx) {
